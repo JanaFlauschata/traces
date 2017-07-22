@@ -4,8 +4,8 @@ sudo: false
 
 env:
   matrix:
-    - ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-21 ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-24 ANDROID_ABI=armeabi-v7a
   global:   #Optional
     - ADB_INSTALL_TIMEOUT=10    #Time out to 10 mins
 
@@ -16,6 +16,8 @@ android:
         - tools
         - build-tools-25.0.0    #Build tool version
         - android-25            #target api version
+        - android-24
+        - android-21
 
         # Additional components
         #- extra-google-google_play_services
@@ -23,8 +25,8 @@ android:
         #- extra-android-m2repository
 
         #system images for emulator
-        - sys-img-armeabi-v7a-android-19
         - sys-img-armeabi-v7a-android-21
+        - sys-img-armeabi-v7a-android-24
 
 licenses:
     - 'android-sdk-preview-license-52d11cd2'
