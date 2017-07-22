@@ -20,9 +20,9 @@ android:
         - android-21
 
         # Additional components
-        #- extra-google-google_play_services
-        #- extra-google-m2repository
-        #- extra-android-m2repository
+        - extra-google-google_play_services
+        - extra-google-m2repository
+        - extra-android-m2repository
 
         #system images for emulator
         - sys-img-armeabi-v7a-android-21
