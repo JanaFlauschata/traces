@@ -5,7 +5,7 @@ sudo: false
 env:
   matrix:
     - ANDROID_TARGET=android-21 ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-24 ANDROID_ABI=armeabi-v7a
+    #- ANDROID_TARGET=android-24 ANDROID_ABI=armeabi-v7a
   global:   #Optional
     - ADB_INSTALL_TIMEOUT=10    #Time out to 10 mins
 
@@ -24,7 +24,7 @@ android:
 
         #system images for emulator
         - sys-img-armeabi-v7a-android-21
-        - sys-img-armeabi-v7a-android-24
+        #- sys-img-armeabi-v7a-android-24
 
 licenses:
     - 'android-sdk-preview-license-52d11cd2'
