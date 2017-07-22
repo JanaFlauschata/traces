@@ -29,7 +29,7 @@ android:
         #- sys-img-armeabi-v7a-android-24
 
 licenses:
-    - 'android-sdk-preview-license-52d11cd2'
+    - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
 
@@ -61,3 +61,5 @@ before_install:
 
 after_success:
     - codecov                       #Run codecov
+
+after_failure: "cat $TRAVIS_BUILD_DIR/app/build/outputs/lint-results-debug.xml"
