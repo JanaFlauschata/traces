@@ -1,2 +1,2 @@
-# traces
+# Traces
 Work in progess Android mood tracker &amp; journaling app
