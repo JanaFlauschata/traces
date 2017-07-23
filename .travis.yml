@@ -32,6 +32,7 @@ licenses:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
+    - '.+'
 
 before_install:
   - mkdir "$ANDROID_HOME/licenses" || true
