@@ -71,6 +71,18 @@ script:
     - ./gradlew jacocoTestReport connectedCheck connectedAndroidTest sonarqube -PdisablePreDex --stacktrace
 
 after_success:
-    - codecov                       #Run codecov
+- codecov
+
+after_failure: cat $TRAVIS_BUILD_DIR/app/build/outputs/lint-results-debug.xml
+
+deploy:
+  provider: releases
+  api_key:
+    secure: GjQlM3YKguTEt8Pw2Pi6l6f+WavL6Ygq1Od/c1hjndt9AzNUh0KDkC1+khWOVEd0a6oywyRBP0EvNa4oG8RH2Vh10tLAGAK7CMV+dPVU2JAjhpL873jkrnZnRS4wOU2in0zYzVoIdv7PujH2815pCFl3D3vRd2vfxf2XVK99bGgljhmAbNS/hsfpT/tPplRz0ZWRhVvhUS7p+uumeRQmRZY/jbjyWaX0e80HxtbkSRrcM06qiRViy4kK47C3vmGIKO5V6YDpGcJXdqz/DQzu3ywsdONU5K/S8uUovDt9/bVBoshCVesC/Fzv09bZqX8sZuZumo9yDxydQ1HaA7WncVLBUi2/IWa7IOuxaLoKfK/r1wKVPXwlWFYQE3Nj+BafDL8oax6HD9YtZT8FnlYGT6AxZKqbzK04qug1uPLXVyMoZj6LNGW52ALFgoAoNdiWAg36LWSEJmeD4QJlURsFJVDz7nGGXs3eLbFHM8ZelQIKA6F+6EcfO87aN4DYgj6g0D/lWLL/nMWDVrDWwEX9U6HS9wGtnKP7ibuxwppfflypu9NAIwoarYBO9TWjaAtFyH40wbB6SIzeUqlw9waM3uKExxacDWfJQs97wxTUH37VV1Nn+m+K+R4O9CFpLed9onJOjzTCQDRmHnIZzqXfbXMilade6L45tClYkv6WheY=
+  file: traces.apk
+  skip_cleanup: true
+  on:
+    repo: JanaFlauschata/traces
+    tags: true
 
 after_failure: "cat $TRAVIS_BUILD_DIR/app/build/outputs/lint-results-debug.xml"
