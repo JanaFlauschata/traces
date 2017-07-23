@@ -34,6 +34,12 @@ licenses:
     - 'google-gdk-license-.+'
     - '.+'
 
+addons:
+  sonarcloud:
+    organization: "janaflauschata-github"
+    token:
+      secure: "CFS8P3YhB02c6YgUWZBJ+L49g5D+JtShGTJ4hiAaageY/TmZVdp1StntZ0UjDfQ0Gk3N748RfoKJmdi0cuYQQ72WxZJ2Jk/L3Ljn+e7F9AKkxwdBr+EKUW8x5dvSoG3LRrGL4KWD1djcuJyrLbta1xjOfTyVlzTBQeZr/4dWdehAaNXpfDObgTTG4vlrwsdueRVhbESvEGNRLjckiAP1Tak/zQUW5bvrVzAOi+vvbBVocapLoCYvG9FT+tqx+m5Ad72pGky5cVDDd8xZj7mrjdi35FWRawGBQsz7WjY6+/JnDY4P26RSzs3Slph58apsoBO0czgWedx+miRFKCOCJ1niiDXNBoZyQ6DwzrmZx0GrliH0B6Bcv4s9lEB7q36BT3rLwo2I4TxRFAyVQCXZAGLsRHAsXCWxeuusplHGHI8XPHHg2OY1HbuRRTj3k6U2ngF8qWId/CqHQnc0R4VGiofF4Nl0K+oFroG+G9SlsIxol8uRFgtZIF+EBCee/PAW9ebFw3WOxyikM/IRWpDGKQPPX4jdljJXUkUC8NQ3PeQ/LPdgoG6iZsD7ZlPnrssZay292dMRtbDw4TTrx/uNo7Zgk05iX9Wr+4bMt/J0IugDjTK/QkbbAFtzQOLRnyQIbGfH1pJ9sS52WufedfLKlj7qYhs4hSGaFFHs7c2i990="
+
 before_install:
   - mkdir "$ANDROID_HOME/licenses" || true
   - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
@@ -48,6 +54,7 @@ cache:
     - $HOME/.gradle/daemon      #Cache daemon logs
     - $HOME/.gradle/native      #Cache library downloaded from the gradle dependency
     - $HOME/.gradle/wrapper     #Cache the gradle
+    - $HOME/.sonar/cache
 
 before_script:
     - chmod +x gradlew      #Grant permissions
@@ -61,7 +68,7 @@ script:
     - android-wait-for-emulator             #Run wait for the emulator script.
     - adb devices                           #Display list of devices
     - adb shell input keyevent 82 &
-    - ./gradlew jacocoTestReport connectedCheck connectedAndroidTest -PdisablePreDex --stacktrace
+    - ./gradlew jacocoTestReport connectedCheck connectedAndroidTest sonarqube -PdisablePreDex --stacktrace
 
 after_success:
     - codecov                       #Run codecov
