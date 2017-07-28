@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Traces</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_journal_entry_crud">JournalEntryCRUDActivity</string>
+    <string name="hint_journal_entry_text">How was your day?</string>
+    <string name="hint_journal_entry_highlight">Any highlights?</string>
 </resources>
