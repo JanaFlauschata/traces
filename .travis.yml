@@ -70,7 +70,7 @@ script:
     - android-wait-for-emulator             #Run wait for the emulator script.
     - adb devices                           #Display list of devices
     - adb shell input keyevent 82 &
-    - ./gradlew clean build jacocoTestReport connectedCheck sonarqube -PdisablePreDex --stacktrace
+    - ./gradlew assembleRelease jacocoTestReport connectedCheck sonarqube -PdisablePreDex --stacktrace
 
 after_success:
 - codecov
@@ -80,10 +80,9 @@ after_failure: cat $TRAVIS_BUILD_DIR/app/build/outputs/lint-results-debug.xml
 before_deploy:
 - cp $TRAVIS_BUILD_DIR/keystore.jks $HOME
 - cd app/build/outputs/apk/
-- jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/keystore.jks -storepass $storepass -keypass $keypass app-release-unsigned.apk releases
-# Verification
-- jarsigner -verify app-release-unsigned.apk
-- "${ANDROID_HOME}/build-tools/25.0.3/zipalign -v 4 app-release-unsigned.apk traces.apk"
+- ${ANDROID_HOME}/build-tools/25.0.3/zipalign -v 4 app-release-unsigned.apk app-release-unsigned-aligned.apk
+- apksigner sign --ks $HOME/keystore.jks --ks-pass env:storepass --key-pass env:keypass app-release-unsigned-aligned.apk --out traces.apk
+- apksigner verify traces.apk
 
 deploy:
   provider: releases
