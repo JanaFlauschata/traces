@@ -19,15 +19,15 @@ public class JournalEntryOpenHelper extends SQLiteOpenHelper {
 
     private static final String TABLE_NAME = "journal";
 
-    private static final String _ID = "_id";
-    private static final String DATE = "date";
-    private static final String TEXT = "text";
-    private static final String HIGHLIGHT = "highlight";
-    private static final String RATING = "rating";
+    static final String _ID = "_id";
+    static final String DATE = "date";
+    static final String TEXT = "text";
+    static final String HIGHLIGHT = "highlight";
+    static final String RATING = "rating";
 
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ("
             + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + DATE + " DATETIME, "
+            + DATE + " INTEGER, "
             + TEXT + " TEXT, "
             + HIGHLIGHT + " TEXT, "
             + RATING + " INTEGER" +
@@ -59,7 +59,7 @@ public class JournalEntryOpenHelper extends SQLiteOpenHelper {
             Log.d(TAG, "Path: " + db.getPath());
 
             ContentValues values = new ContentValues();
-            values.put(DATE, String.valueOf(new java.sql.Date(date.getTime())));
+            values.put(DATE, date.getTime());
             values.put(TEXT, text);
             values.put(HIGHLIGHT, highlight);
             values.put(RATING, rating);
