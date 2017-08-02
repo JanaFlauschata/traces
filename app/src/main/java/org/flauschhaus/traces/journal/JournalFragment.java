@@ -1,7 +1,6 @@
 package org.flauschhaus.traces.journal;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,46 +10,42 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.flauschhaus.traces.R;
-import org.flauschhaus.traces.journal.entry.JournalEntryRecyclerViewAdapter;
-import org.flauschhaus.traces.journal.entry.JournalEntryOpenHelper;
+import org.flauschhaus.traces.TracesApplication;
+import org.flauschhaus.traces.journal.entry.JournalEntry;
+import org.flauschhaus.traces.journal.entry.JournalEntryAdapter;
+import org.flauschhaus.traces.journal.entry.JournalEntryDao;
+import org.greenrobot.greendao.query.Query;
 
 public class JournalFragment extends Fragment {
 
-    private JournalEntryOpenHelper journalEntryOpenHelper;
-    private Cursor cursor;
+    private JournalEntryAdapter journalEntryAdapter;
+    private Query<JournalEntry> journalEntryQuery;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_journal_list, container, false);
+        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_journal_list, container, false);
+        Context context = recyclerView.getContext();
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        journalEntryAdapter = new JournalEntryAdapter();
+        recyclerView.setAdapter(journalEntryAdapter);
 
-            cursor = journalEntryOpenHelper.query();
-            recyclerView.setAdapter(new JournalEntryRecyclerViewAdapter(context, cursor));
-        }
-        return view;
-    }
+        JournalEntryDao journalEntryDao = ((TracesApplication) getActivity().getApplication()).getDaoSession().getJournalEntryDao();
+        journalEntryQuery = journalEntryDao.queryBuilder().orderDesc(JournalEntryDao.Properties.Date).build();
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        journalEntryOpenHelper = new JournalEntryOpenHelper(context);
+        updateEntries();
+
+        return recyclerView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        cursor.requery();
+        updateEntries();
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        cursor.close();
-        journalEntryOpenHelper.close();
+    private void updateEntries() {
+        journalEntryAdapter.setJournalEntries(journalEntryQuery.list());
     }
 }

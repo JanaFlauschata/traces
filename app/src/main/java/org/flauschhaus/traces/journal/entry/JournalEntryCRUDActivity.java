@@ -8,12 +8,11 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 
 import org.flauschhaus.traces.R;
+import org.flauschhaus.traces.TracesApplication;
 
 import java.util.Date;
 
 public class JournalEntryCRUDActivity extends AppCompatActivity {
-
-    private JournalEntryOpenHelper journalEntryOpenHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,20 +24,23 @@ public class JournalEntryCRUDActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button buttonSave = (Button) findViewById(R.id.button_journal_entry_save);
-        buttonSave.setOnClickListener((e) -> {
+        buttonSave.setOnClickListener(e -> {
             EditText textView = (EditText) findViewById(R.id.edit_journal_entry_text);
             EditText highlightView = (EditText) findViewById(R.id.edit_journal_entry_highlight);
             SeekBar seekBar = (SeekBar) findViewById(R.id.seek_journal_entry_rating);
-            journalEntryOpenHelper.insert(new Date(), textView.getText().toString(), highlightView.getText().toString(), seekBar.getProgress());
+
+            JournalEntry journalEntry = new JournalEntry();
+            journalEntry.setDate(new Date());
+            journalEntry.setText(textView.getText().toString());
+            journalEntry.setHighlight(highlightView.getText().toString());
+            journalEntry.setRating(seekBar.getProgress());
+
+            JournalEntryDao journalEntryDao = ((TracesApplication) getApplication()).getDaoSession().getJournalEntryDao();
+            journalEntryDao.save(journalEntry);
+
             this.finish();
         });
 
-        journalEntryOpenHelper = new JournalEntryOpenHelper(this);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        journalEntryOpenHelper.close();
-    }
 }
