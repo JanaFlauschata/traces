@@ -29,11 +29,12 @@ public class JournalEntryCRUDActivity extends AppCompatActivity {
             EditText highlightView = (EditText) findViewById(R.id.edit_journal_entry_highlight);
             SeekBar seekBar = (SeekBar) findViewById(R.id.seek_journal_entry_rating);
 
-            JournalEntry journalEntry = new JournalEntry();
-            journalEntry.setDate(new Date());
-            journalEntry.setText(textView.getText().toString());
-            journalEntry.setHighlight(highlightView.getText().toString());
-            journalEntry.setRating(seekBar.getProgress());
+            JournalEntry journalEntry = new JournalEntryBuilder()
+                    .forDate(new Date())
+                    .withText(textView.getText().toString())
+                    .withHighlight(highlightView.getText().toString())
+                    .rated(seekBar.getProgress())
+                    .build();
 
             JournalEntryDao journalEntryDao = ((TracesApplication) getApplication()).getDaoSession().getJournalEntryDao();
             journalEntryDao.save(journalEntry);
