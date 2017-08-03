@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
 
 import org.flauschhaus.traces.journal.JournalFragment;
 import org.flauschhaus.traces.journal.entry.JournalEntryCRUDActivity;
@@ -21,9 +22,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view -> {
-            Intent intent = new Intent(getBaseContext(), JournalEntryCRUDActivity.class);
-            startActivity(intent);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), JournalEntryCRUDActivity.class);
+                startActivity(intent);
+            }
         });
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
