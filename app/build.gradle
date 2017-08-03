@@ -14,10 +14,12 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            testCoverageEnabled true
         }
     }
     compileOptions {
@@ -28,6 +30,13 @@ android {
 
 greendao {
     schemaVersion 1
+}
+
+sonarqube {
+    properties {
+        property "sonar.java.binaries", "build/intermediates/classes/debug"
+        property "sonar.jacoco.reportPaths","build/jacoco/testDebugUnitTest.exec"
+    }
 }
 
 dependencies {
