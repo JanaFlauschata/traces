@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Traces</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_journal_entry_crud">JournalEntryCRUDActivity</string>
+    <string name="action_crud_delete">Delete</string>
     <string name="hint_journal_entry_text">How was your day?</string>
     <string name="hint_journal_entry_highlight">Any highlights?</string>
+    <string name="dialog_crud_delete_message">Do you really want to delete this entry?</string>
+    <string name="dialog_crud_delete_title">Really?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -22,7 +22,6 @@
         </activity>
         <activity
             android:name=".journal.entry.JournalEntryCRUDActivity"
-            android:label="@string/title_activity_journal_entry_crud"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

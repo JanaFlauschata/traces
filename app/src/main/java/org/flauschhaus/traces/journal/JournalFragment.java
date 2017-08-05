@@ -1,6 +1,7 @@
 package org.flauschhaus.traces.journal;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,10 +14,11 @@ import org.flauschhaus.traces.R;
 import org.flauschhaus.traces.TracesApplication;
 import org.flauschhaus.traces.journal.entry.JournalEntry;
 import org.flauschhaus.traces.journal.entry.JournalEntryAdapter;
+import org.flauschhaus.traces.journal.entry.JournalEntryCRUDActivity;
 import org.flauschhaus.traces.journal.entry.JournalEntryDao;
 import org.greenrobot.greendao.query.Query;
 
-public class JournalFragment extends Fragment {
+public class JournalFragment extends Fragment implements JournalEntryAdapter.OnListFragmentInteractionListener {
 
     private JournalEntryAdapter journalEntryAdapter;
     private Query<JournalEntry> journalEntryQuery;
@@ -29,6 +31,7 @@ public class JournalFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         journalEntryAdapter = new JournalEntryAdapter();
+        journalEntryAdapter.setListener(this);
         recyclerView.setAdapter(journalEntryAdapter);
 
         JournalEntryDao journalEntryDao = ((TracesApplication) getActivity().getApplication()).getDaoSession().getJournalEntryDao();
@@ -47,5 +50,12 @@ public class JournalFragment extends Fragment {
 
     private void updateEntries() {
         journalEntryAdapter.setJournalEntries(journalEntryQuery.list());
+    }
+
+    @Override
+    public void onListFragmentInteraction(JournalEntry journalEntry) {
+        Intent intent = new Intent(getContext(), JournalEntryCRUDActivity.class);
+        intent.putExtra(JournalEntry.class.getName(), journalEntry);
+        startActivity(intent);
     }
 }

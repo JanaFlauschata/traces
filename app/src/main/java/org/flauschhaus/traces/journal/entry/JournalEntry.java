@@ -1,15 +1,21 @@
 package org.flauschhaus.traces.journal.entry;
 
+import android.databinding.BindingConversion;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.NotNull;
 
+import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.Date;
 import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
-public class JournalEntry {
+public class JournalEntry implements Serializable {
+
+    private static final long serialVersionUID = 930790846715306027L;
 
     @Id
     private Long id;
@@ -78,4 +84,8 @@ public class JournalEntry {
         this.rating = rating;
     }
 
+    @BindingConversion
+    public static String convert(Date date) {
+        return DateFormat.getDateInstance(DateFormat.MEDIUM).format(date);
+    }
 }

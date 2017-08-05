@@ -13,6 +13,7 @@ import java.util.List;
 
 public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapter.JournalEntryViewHolder> {
 
+    private OnListFragmentInteractionListener listener;
     private List<JournalEntry> journalEntries = Collections.emptyList();
 
     @Override
@@ -22,10 +23,20 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
     }
 
     @Override
-    public void onBindViewHolder(JournalEntryViewHolder holder, int position) {
+    public void onBindViewHolder(final JournalEntryViewHolder holder, int position) {
         JournalEntry journalEntry = journalEntries.get(position);
         holder.textview1.setText(journalEntry.getText());
         holder.textview2.setText(String.valueOf(journalEntry.getRating()));
+        holder.journalEntry = journalEntry;
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onListFragmentInteraction(holder.journalEntry);
+                }
+            }
+        });
     }
 
     @Override
@@ -38,8 +49,13 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
         notifyDataSetChanged();
     }
 
+    public void setListener(OnListFragmentInteractionListener listener) {
+        this.listener = listener;
+    }
+
     class JournalEntryViewHolder extends RecyclerView.ViewHolder{
 
+        JournalEntry journalEntry;
         TextView textview1;
         TextView textview2;
 
@@ -48,5 +64,9 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
             textview1 = (TextView) itemView.findViewById(R.id.id);
             textview2 = (TextView) itemView.findViewById(R.id.content);
         }
+    }
+
+    public interface OnListFragmentInteractionListener {
+        void onListFragmentInteraction(JournalEntry journalEntry);
     }
 }
