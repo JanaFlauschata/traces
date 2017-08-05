@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.flauschhaus.traces.journal.entry.CustomScrollActions.nestedScrollTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
@@ -22,8 +23,9 @@ public class JournalEntryCRUDActivityTest {
 
     @Test
     public void click_on_button_finishes_activity(){
+
         onView(withId(R.id.button_journal_entry_save))
-                .perform(click());
+                .perform(nestedScrollTo(), click());
 
         assertThat(journalEntryCRUDActivityActivityTestRule.getActivity().isFinishing(),is(true));
     }
