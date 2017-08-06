@@ -47,7 +47,7 @@ public class JournalFragmentTest {
     public void create_new_entry() {
         clickButtonToCreateNewEntry();
 
-        checkDisplayedDateIs(JournalEntry.convert(date));
+        checkDisplayedDateIs(date);
         checkOriginalEntryTextIs("");
         checkOriginalEntryHighlightIs("");
         checkOriginalRatingIs(0);
@@ -59,15 +59,17 @@ public class JournalFragmentTest {
         saveOrUpdate();
 
         checkEntriesCount(1);
-        checkFirstEntryHasId("a very good day");
-        checkFirstEntryHasContent("7");
+        checkFirstEntryHasDate(date);
+        checkFirstEntryHasText("a very good day");
+        checkFirstEntryHasHighlight("dancing!");
+        checkFirstEntryIsRated(7);
     }
 
     @Test
     public void update_entry() {
         clickFirstEntry();
 
-        checkDisplayedDateIs(JournalEntry.convert(date));
+        checkDisplayedDateIs(date);
         checkOriginalEntryTextIs("a very good day");
         checkOriginalEntryHighlightIs("dancing!");
         checkOriginalRatingIs(7);
@@ -78,8 +80,10 @@ public class JournalFragmentTest {
         saveOrUpdate();
 
         checkEntriesCount(1);
-        checkFirstEntryHasId("a very good day today");
-        checkFirstEntryHasContent("9");
+        checkFirstEntryHasDate(date);
+        checkFirstEntryHasText("a very good day today");
+        checkFirstEntryHasHighlight("dancing!");
+        checkFirstEntryIsRated(9);
     }
 
     @Test
@@ -123,12 +127,20 @@ public class JournalFragmentTest {
         onView(withId(R.id.list)).check(hasItemsCount(count));
     }
 
-    private void checkFirstEntryHasId(String id) {
-        onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.id)).check(matches(withText(id)));
+    private void checkFirstEntryHasDate(Date date) {
+        onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.card_date)).check(matches(withText(JournalEntry.convert(date))));
     }
 
-    private void checkFirstEntryHasContent(String content) {
-        onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.content)).check(matches(withText(content)));
+    private void checkFirstEntryIsRated(int rating) {
+        onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.card_rating)).check(matches(withText(String.valueOf(rating))));
+    }
+
+    private void checkFirstEntryHasText(String text) {
+        onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.card_text)).check(matches(withText(text)));
+    }
+
+    private void checkFirstEntryHasHighlight(String highlight) {
+        onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.card_highlight)).check(matches(withText(highlight)));
     }
 
     private void checkOriginalEntryTextIs(String text) {
@@ -143,7 +155,7 @@ public class JournalFragmentTest {
         onView(withId(R.id.seek_journal_entry_rating)).check(matches(withProgress(rating)));
     }
 
-    private void checkDisplayedDateIs(String formattedDate) {
-        onView(withId(R.id.toolbar)).check(matches(withToolbarTitle(formattedDate)));
+    private void checkDisplayedDateIs(Date date) {
+        onView(withId(R.id.toolbar)).check(matches(withToolbarTitle(JournalEntry.convert(date))));
     }
 }

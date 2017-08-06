@@ -25,8 +25,11 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
     @Override
     public void onBindViewHolder(final JournalEntryViewHolder holder, int position) {
         JournalEntry journalEntry = journalEntries.get(position);
-        holder.textview1.setText(journalEntry.getText());
-        holder.textview2.setText(String.valueOf(journalEntry.getRating()));
+
+        holder.date.setText(JournalEntry.convert(journalEntry.getDate()));
+        holder.rating.setText(String.valueOf(journalEntry.getRating()));
+        holder.text.setText(journalEntry.getText());
+        holder.highlight.setText(journalEntry.getHighlight());
         holder.journalEntry = journalEntry;
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -56,13 +59,17 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
     class JournalEntryViewHolder extends RecyclerView.ViewHolder{
 
         JournalEntry journalEntry;
-        TextView textview1;
-        TextView textview2;
+        TextView date;
+        TextView rating;
+        TextView text;
+        TextView highlight;
 
         public JournalEntryViewHolder(View itemView) {
             super(itemView);
-            textview1 = (TextView) itemView.findViewById(R.id.id);
-            textview2 = (TextView) itemView.findViewById(R.id.content);
+            date = (TextView) itemView.findViewById(R.id.card_date);
+            rating = (TextView) itemView.findViewById(R.id.card_rating);
+            text = (TextView) itemView.findViewById(R.id.card_text);
+            highlight = (TextView) itemView.findViewById(R.id.card_highlight);
         }
     }
 
