@@ -5,9 +5,13 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.flauschhaus.traces.MainActivity;
 import org.flauschhaus.traces.R;
+import org.flauschhaus.traces.journal.entry.JournalEntry;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.Date;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
@@ -24,6 +28,7 @@ import static org.flauschhaus.traces.util.RecyclerViewAssertions.hasItemsCount;
 import static org.flauschhaus.traces.util.RecyclerViewMatcher.withRecyclerView;
 import static org.flauschhaus.traces.util.SeekBarMatchers.withProgress;
 import static org.flauschhaus.traces.util.SeekBarViewActions.seek;
+import static org.flauschhaus.traces.util.ToolbarMatchers.withToolbarTitle;
 
 @RunWith(AndroidJUnit4.class)
 public class JournalFragmentTest {
@@ -31,10 +36,18 @@ public class JournalFragmentTest {
     @Rule
     public ActivityTestRule<MainActivity> journalEntryCRUDActivityActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
+    private Date date;
+
+    @Before
+    public void setUp() {
+        date = new Date();
+    }
+
     @Test
     public void create_new_entry() {
         clickButtonToCreateNewEntry();
 
+        checkDisplayedDateIs(JournalEntry.convert(date));
         checkOriginalEntryTextIs("");
         checkOriginalEntryHighlightIs("");
         checkOriginalRatingIs(0);
@@ -54,6 +67,7 @@ public class JournalFragmentTest {
     public void update_entry() {
         clickFirstEntry();
 
+        checkDisplayedDateIs(JournalEntry.convert(date));
         checkOriginalEntryTextIs("a very good day");
         checkOriginalEntryHighlightIs("dancing!");
         checkOriginalRatingIs(7);
@@ -127,5 +141,9 @@ public class JournalFragmentTest {
 
     private void checkOriginalRatingIs(int rating) {
         onView(withId(R.id.seek_journal_entry_rating)).check(matches(withProgress(rating)));
+    }
+
+    private void checkDisplayedDateIs(String formattedDate) {
+        onView(withId(R.id.toolbar)).check(matches(withToolbarTitle(formattedDate)));
     }
 }
