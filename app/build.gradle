@@ -38,7 +38,7 @@ greendao {
 sonarqube {
     properties {
         property "sonar.java.binaries", "build/intermediates/classes/debug"
-        property "sonar.jacoco.reportPaths","build/jacoco/testDebugUnitTest.exec, build/outputs/code-coverage/connected/coverage.ec"
+        property "sonar.jacoco.reportPaths","build/jacoco/testDebugUnitTest.exec, build/outputs/code-coverage/connected/test(AVD) - 5.0.2-coverage.ec"
     }
 }
 
