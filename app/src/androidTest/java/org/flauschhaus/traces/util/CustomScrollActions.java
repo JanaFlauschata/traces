@@ -1,4 +1,4 @@
-package org.flauschhaus.traces.journal.entry;
+package org.flauschhaus.traces.util;
 
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;

@@ -21,6 +21,7 @@ public class JournalEntryCRUDActivity extends AppCompatActivity {
 
     private JournalEntryDao journalEntryDao;
     private ActivityJournalEntryCrudBinding binding;
+    private boolean isUpdating = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,8 @@ public class JournalEntryCRUDActivity extends AppCompatActivity {
         JournalEntry journalEntry;
         if (getIntent().hasExtra(JournalEntry.class.getName())) {
             journalEntry = (JournalEntry) getIntent().getSerializableExtra(JournalEntry.class.getName());
+            isUpdating = true;
+            invalidateOptionsMenu();
         }
         else {
             journalEntry = new JournalEntry();
@@ -57,9 +60,11 @@ public class JournalEntryCRUDActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_journal_entry_crud, menu);
+        menu.findItem(R.id.action_crud_delete).setVisible(isUpdating);
         return true;
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_crud_delete) {
             deleteExistingEntry();
